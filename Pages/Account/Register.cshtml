@@ -1,0 +1,37 @@
+﻿@page
+@{
+    ViewData["Title"] = "Register";
+}
+@model CommunityWebsite_Lexicon_Project.Models.LoginModel
+@{
+<h3>Register</h3>
+    <form asp-action="Register" asp-controller="Account" method="post">
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <h4>Email</h4>
+    <input asp-for="Email" type="email" />
+    <span asp-validation-for="Email"></span>
+
+    <h4>Username</h4>
+    <input asp-for="Username" type="text" />
+    <span asp-validation-for="Username"></span>
+
+    <h4>Password</h4>
+    <input asp-for="Password" type="password" />
+    <span asp-validation-for="Password"></span>
+
+    <h4>Confirm Password</h4>
+    <input asp-for="PasswordConfirm" type="password" />
+    <span asp-validation-for="PasswordConfirm"></span>
+
+    <button type="submit" value="Register">Register</button>
+</form>
+}
+@{
+    if (ViewBag.Message != null)
+    {
+    <div>
+                @ViewBag.Message
+    </div>
+    }
+}
