@@ -1,6 +1,5 @@
 ﻿using CommunityWebsite_Lexicon_Project.Interfaces;
 using CommunityWebsite_Lexicon_Project.Models;
-using CommunityWebsite_Lexicon_Project.Pages.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -37,32 +36,32 @@ namespace CommunityWebsite_Lexicon_Project.Controllers
         [AllowAnonymous]
         [HttpPost("Register")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register([FromForm] LoginModel submittedAccountModel)
+        public async Task<IActionResult> Register([FromForm] RegisterModel submittedAccountModel)
         {
             if (ModelState.IsValid)
             {
                 Account createdUser = new Account() // Create account object.
                 {
-                    UserName = submittedAccountModel.Username,
+                    UserName = submittedAccountModel.UserName,
                     Email = submittedAccountModel.Email,
                 };
 
                 Regex regex = new Regex(@"^[a-zA-Z0-9]+$"); // Only letters and digits allowed.
                 if (!regex.IsMatch(createdUser.UserName))
                 {
-                    ModelState.AddModelError("NickName", "Only letters and digits are allowed in the NickName field.");
+                    ModelState.AddModelError("UserName", "Only letters and digits are allowed in the UserName field.");
                 }
 
-                try // Setting the password.
-                {
-                    await createdUser.SetPassword(submittedAccountModel.Password);
-                } catch (Exception)
-                {
-                    throw new Exception("Error.");
-                } finally // Verify the password.
-                {
-                    await createdUser.VerifyPassword(submittedAccountModel.PasswordConfirm);
-                }
+                //try // Setting the password.
+                //{
+                //    await createdUser.SetPassword(submittedAccountModel.Password);
+                //} catch (Exception)
+                //{
+                //    throw new Exception("Error.");
+                //} finally // Verify the password.
+                //{
+                //    await createdUser.VerifyPassword(submittedAccountModel.PasswordConfirm);
+                //}
 
                 IdentityResult result = await _userManager.CreateAsync( // Create the Account-Identity object.
                     createdUser, submittedAccountModel.Password
@@ -70,7 +69,7 @@ namespace CommunityWebsite_Lexicon_Project.Controllers
 
                 if (result.Succeeded)
                 {
-                    await _accountRepository.AddAsync(createdUser); // Save the Account-Identity object.
+                    //await _accountRepository.AddAsync(createdUser); // Save the Account-Identity object. // Samma som _userManager.CreateAsync.
                     return RedirectToAction("Login");
                     //return Ok();
                 } else
@@ -84,7 +83,7 @@ namespace CommunityWebsite_Lexicon_Project.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet]
+        [HttpGet("Register")]
         public IActionResult Register()
         {
             return View();
@@ -138,7 +137,7 @@ namespace CommunityWebsite_Lexicon_Project.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet]
+        [HttpGet("Login")]
         public IActionResult Login()
         {
             return View();

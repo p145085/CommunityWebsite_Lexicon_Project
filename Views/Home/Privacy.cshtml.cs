@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace CommunityWebsite_Lexicon_Project.Pages
+namespace CommunityWebsite_Lexicon_Project.Views.Home
 {
     public class PrivacyModel : PageModel
     {

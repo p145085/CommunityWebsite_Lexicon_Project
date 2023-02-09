@@ -1,8 +1,7 @@
-﻿@page
-@{
+﻿@{
     ViewData["Title"] = "Register";
 }
-@model CommunityWebsite_Lexicon_Project.Models.LoginModel
+@model CommunityWebsite_Lexicon_Project.Models.RegisterModel
 @{
 <h3>Register</h3>
     <form asp-action="Register" asp-controller="Account" method="post">
@@ -13,8 +12,8 @@
     <span asp-validation-for="Email"></span>
 
     <h4>Username</h4>
-    <input asp-for="Username" type="text" />
-    <span asp-validation-for="Username"></span>
+    <input asp-for="UserName" type="text" />
+    <span asp-validation-for="UserName"></span>
 
     <h4>Password</h4>
     <input asp-for="Password" type="password" />

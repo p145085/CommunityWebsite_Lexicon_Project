@@ -63,17 +63,19 @@ namespace CommunityWebsite_Lexicon_Project
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddIdentity<Account, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
             // Add services to the container.
-            builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+            //builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
                 "Server=(localdb)\\MSSQLLocalDB;Database=CommunityWebsite_Database;Trusted_Connection=True;MultipleActiveResultSets=true"
                 ));
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
-            builder.Services.AddIdentity<Account, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            
             builder.Services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = true;
@@ -97,7 +99,7 @@ namespace CommunityWebsite_Lexicon_Project
             }
 
             app.UseHttpsRedirection();
-            app.UseDefaultFiles();
+            //app.UseDefaultFiles();
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -105,9 +107,16 @@ namespace CommunityWebsite_Lexicon_Project
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.MapRazorPages();
+            //app.MapRazorPages();
 
             //new WebHostBuilder().UseContentRoot(Directory.GetCurrentDirectory());
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
 
             app.MapControllerRoute(
                 name: "default",

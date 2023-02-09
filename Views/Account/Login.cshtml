@@ -1,5 +1,4 @@
-﻿@page
-@{
+﻿@{
     ViewData["Title"] = "Login";
 }
 @model CommunityWebsite_Lexicon_Project.Models.LoginModel
@@ -17,14 +16,6 @@
         <input asp-for="Password" type="password" />
         <span asp-validation-for="Password"></span>
 
-        <h4>Confirm Password</h4>
-        <input asp-for="PasswordConfirm" type="password" />
-        <span asp-validation-for="PasswordConfirm"></span>
-
-        <h4>Email</h4>
-        <input asp-for="Email" type="email" />
-        <span asp-validation-for="Email"></span>
-
         <button type="submit" value="Login">Login</button>
     </form>
 }
@@ -36,3 +27,11 @@
         </div>
     }
 }
+<!--    <h4>Confirm Password</h4>
+        <input asp-for="PasswordConfirm" type="password" />
+        <span asp-validation-for="PasswordConfirm"></span>   
+        
+        <h4>Email</h4>
+        <input asp-for="Email" type="email" />
+        <span asp-validation-for="Email"></span>
+-->

@@ -14,7 +14,7 @@ namespace CommunityWebsite_Lexicon_Project.Repositories
             _context = context;
         }
 
-        public Task<Account> GetAccountByIdAsync(int id)
+        public Task<Account> GetAccountByIdAsync(string id)
         {
             return _context.Accounts.FirstOrDefaultAsync(x => x.Id == id);
         }
