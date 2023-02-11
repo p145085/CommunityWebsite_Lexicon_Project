@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace CommunityWebsite_Lexicon_Project.Models
+namespace CommunityWebsite_Lexicon_Project.Models.ViewModels
 {
     public class ErrorViewModel : Controller
     {

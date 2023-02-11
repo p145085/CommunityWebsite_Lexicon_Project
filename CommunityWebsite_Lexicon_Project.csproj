@@ -21,4 +21,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Forum\" />
+    <Folder Include="Views\Admin\" />
+    <Folder Include="Views\NewsFeed\" />
+  </ItemGroup>
+
 </Project>

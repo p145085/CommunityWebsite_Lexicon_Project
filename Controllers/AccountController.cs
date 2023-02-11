@@ -1,5 +1,6 @@
 ﻿using CommunityWebsite_Lexicon_Project.Interfaces;
-using CommunityWebsite_Lexicon_Project.Models;
+using CommunityWebsite_Lexicon_Project.Models.BaseModels;
+using CommunityWebsite_Lexicon_Project.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -36,7 +37,7 @@ namespace CommunityWebsite_Lexicon_Project.Controllers
         [AllowAnonymous]
         [HttpPost("Register")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register([FromForm] RegisterModel submittedAccountModel)
+        public async Task<IActionResult> Register([FromForm] RegisterViewModel submittedAccountModel)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +92,7 @@ namespace CommunityWebsite_Lexicon_Project.Controllers
 
         [AllowAnonymous]
         [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromForm] LoginModel loginModel)
+        public async Task<IActionResult> Login([FromForm] LoginViewModel loginModel)
         {
             SignInResult result = await _signInManager.PasswordSignInAsync(
                 loginModel.Username, loginModel.Password, false, false);

@@ -1,6 +1,6 @@
 ﻿using CommunityWebsite_Lexicon_Project.Data;
 using CommunityWebsite_Lexicon_Project.Interfaces;
-using CommunityWebsite_Lexicon_Project.Models;
+using CommunityWebsite_Lexicon_Project.Models.BaseModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommunityWebsite_Lexicon_Project.Repositories

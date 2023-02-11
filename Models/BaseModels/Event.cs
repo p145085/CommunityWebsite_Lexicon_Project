@@ -1,4 +1,4 @@
-﻿namespace CommunityWebsite_Lexicon_Project.Models
+﻿namespace CommunityWebsite_Lexicon_Project.Models.BaseModels
 {
     public class Event : Post
     {

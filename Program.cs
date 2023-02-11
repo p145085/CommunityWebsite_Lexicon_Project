@@ -1,6 +1,6 @@
 using CommunityWebsite_Lexicon_Project.Data;
 using CommunityWebsite_Lexicon_Project.Interfaces;
-using CommunityWebsite_Lexicon_Project.Models;
+using CommunityWebsite_Lexicon_Project.Models.BaseModels;
 using CommunityWebsite_Lexicon_Project.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

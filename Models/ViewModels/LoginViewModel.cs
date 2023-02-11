@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
-namespace CommunityWebsite_Lexicon_Project.Models
+namespace CommunityWebsite_Lexicon_Project.Models.ViewModels
 {
     public class LoginModel
     {

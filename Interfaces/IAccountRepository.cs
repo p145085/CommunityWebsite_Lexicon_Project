@@ -1,4 +1,4 @@
-﻿using CommunityWebsite_Lexicon_Project.Models;
+﻿using CommunityWebsite_Lexicon_Project.Models.BaseModels;
 
 namespace CommunityWebsite_Lexicon_Project.Interfaces
 {
