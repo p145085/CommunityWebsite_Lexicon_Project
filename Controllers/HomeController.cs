@@ -1,4 +1,5 @@
-﻿using CommunityWebsite_Lexicon_Project.Models;
+﻿using CommunityWebsite_Lexicon_Project.Interfaces;
+using CommunityWebsite_Lexicon_Project.Models;
 using CommunityWebsite_Lexicon_Project.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -8,6 +9,7 @@ namespace CommunityWebsite_Lexicon_Project.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;

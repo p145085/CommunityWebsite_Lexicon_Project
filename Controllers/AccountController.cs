@@ -37,7 +37,7 @@ namespace CommunityWebsite_Lexicon_Project.Controllers
         [AllowAnonymous]
         [HttpPost("Register")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register([FromForm] RegisterViewModel submittedAccountModel)
+        public async Task<IActionResult> Register([FromForm] RegisterModel submittedAccountModel)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +92,7 @@ namespace CommunityWebsite_Lexicon_Project.Controllers
 
         [AllowAnonymous]
         [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromForm] LoginViewModel loginModel)
+        public async Task<IActionResult> Login([FromForm] LoginModel loginModel)
         {
             SignInResult result = await _signInManager.PasswordSignInAsync(
                 loginModel.Username, loginModel.Password, false, false);

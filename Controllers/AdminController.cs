@@ -34,6 +34,13 @@ namespace CommunityWebsite_Lexicon_Project.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> RemoveUserByEmail(string email)
+        {
+            Account user = await _userManager.FindByEmailAsync(email);
+            _userManager.DeleteAsync(user);
+            return RedirectToAction("Index");
+        }
+
         // Finn lösning på en slags 'squelch'/'mute' för en period av tid.
         //public async Task<IActionResult> RestrictUserCalled(string name)
         //{

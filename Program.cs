@@ -74,6 +74,9 @@ namespace CommunityWebsite_Lexicon_Project
                 "Server=(localdb)\\MSSQLLocalDB;Database=CommunityWebsite_Database;Trusted_Connection=True;MultipleActiveResultSets=true"
                 ));
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+            builder.Services.AddScoped<IPostRepository, PostRepository>();
+            builder.Services.AddScoped<IEventRepository, EventRepository>();
+            builder.Services.AddScoped<IForumThreadRepository, ForumThreadRepository>();
 
             
             builder.Services.Configure<IdentityOptions>(options =>
@@ -116,11 +119,27 @@ namespace CommunityWebsite_Lexicon_Project
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
 
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                    name: "admin",
+                    pattern: "admin/{controller=Admin}/{action=Index}/{id?}",
+                    defaults: new { controller = "Admin", action = "Index" });
+
+                endpoints.MapControllerRoute(
+                    name: "account",
+                    pattern: "account/{controller=Account}/{action=Index}/{id?}",
+                    defaults: new { controller = "Account", action = "Index" });
+
+                endpoints.MapControllerRoute(
+                    name: "role",
+                    pattern: "role/{controller=Role}/{action=Index}/{id?}",
+                    defaults: new { controller = "Role", action = "Index" });
+
+                endpoints.MapControllerRoute(
+                    name: "news",
+                    pattern: "news/{controller=NewsFeed}/{action=Index}/{id?}",
+                    defaults: new { controller = "NewsFeed", action = "Index" });
+            });
 
             using (var scope = app.Services.CreateScope())
             {

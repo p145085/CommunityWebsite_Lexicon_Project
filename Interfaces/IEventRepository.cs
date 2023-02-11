@@ -8,7 +8,7 @@ namespace CommunityWebsite_Lexicon_Project.Interfaces
         List<Event> GetEventsByMatchingAccountUserName(string username);
         List<Event> GetEventsByMatchingEmail(string email);
         List<Event> GetEventsHappeningOnDay(DateTime dateTime);
-        List<Event> GetEventsHappeningOnWeek(DateTime dateTime);
+        //List<Event> GetEventsHappeningOnWeek(DateTime dateTime);
         List<Event> GetEventsHappeningOnMonth(DateTime dateTime);
         List<Event> GetEventsHappeningInYear(DateTime dateTime);
         List<Event> GetEventsAccountIsAttending(Account account);

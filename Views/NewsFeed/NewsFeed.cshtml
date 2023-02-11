@@ -1,0 +1,62 @@
+﻿@using CommunityWebsite_Lexicon_Project.Models.BaseModels
+@using CommunityWebsite_Lexicon_Project.Models.ViewModels;
+@model NewsViewModel
+@{
+    ViewData["Title"] = "Newsfeed";
+}
+
+<div>
+    <h1>News</h1>
+    @foreach (var item in Model.Posts.OrderByDescending(d => d.CreationDateTime)){
+        <div>
+            <p>Author: @item.OriginalPoster.UserName</p>
+            <p>Title: @item.Title</p>
+            <p>Date: @item.CreationDateTime.ToString("dd/MM/yyyy")</p>
+
+            @foreach (Image images in item.AttachedImages)
+            {
+                <img src="@images.Path" />
+            }
+
+            @if(item.isBlogPost == true){
+                <p>This is a blog post.</p>
+            } else if(item.isForumThread == true){
+                <p>This is a forum thread.</p>
+            } else if (item.isEvent == true){
+                var blah = item as Event;
+                <p>The event will take place on: @blah.HighlightedDateTime.ToString("dd/MM/yyyy")</p>
+                <p>Number of attendees: @blah.UsersAttending.Count</p>
+                <p>Users attending: 
+                @foreach (var foo in blah.UsersAttending){
+                    @foo.UserName
+                }
+                </p>
+            }
+
+            @if(item.isReadOnly == true){
+                <p>This post has been locked.</p>
+            }
+
+            <div class="content">
+                <p>@item.Message</p>
+            </div>
+
+            @if (item.Tags.Any())
+            {
+                <p> Tags: @foreach (Tag tag in item.Tags) {
+                        @tag.Value
+                }
+                </p>
+            }
+        </div>
+    }
+</div>
+
+@{
+    if (ViewBag.Message != null)
+    {
+        <div>
+            @ViewBag.Message
+        </div>
+    }
+}

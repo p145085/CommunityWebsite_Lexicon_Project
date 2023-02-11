@@ -12,10 +12,11 @@ namespace CommunityWebsite_Lexicon_Project.Interfaces
         List<Post> GetPostsAfterDate(DateTime dateTime);
         List<Post> GetPostsByCreationDateSameDay(DateTime dateTime);
         List<Post> GetPostsContainingTag(string tag);
-        List<Post> SearchPostMessageForMatchingQuery(Post post, string query);
+        List<Post> SearchAllPostsForMessageMatchingQuery(string query);
         List<Account> GetAccountParticipantsInPost(Post post, string id);
-        List<Event> GetAllEvents(List<Post> posts);
-        List<Event> GetAllForumThreads(List<Post> posts);
+        List<Event> GetAllEvents();
+        List<ForumThread> GetAllForumThreads();
+        List<Post> GetAllPosts();
         Task AddAsync(Post post);
     }
 }

@@ -12,5 +12,8 @@ namespace CommunityWebsite_Lexicon_Project.Data
         }
 
         public DbSet<Account>? Accounts { get; set; }
+        public DbSet<Post>? Posts { get; set; }
+        public DbSet<Event>? Events { get; set; }
+        public DbSet<ForumThread>? ForumThreads { get; set; }
     }
 }
