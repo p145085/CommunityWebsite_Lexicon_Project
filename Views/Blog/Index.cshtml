@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Create blog-post";
+}
+@model CommunityWebsite_Lexicon_Project.Models.ViewModels.BlogPostViewModel
+@{
+    <h3>Create blog-post</h3>
+
+    //<form asp-action="PostBlogPostForm" asp-controller="Blog" method="post">
+    //    <div asp-validation-summary="ModelOnly"></div>
+
+    //    <button type="submit" value="PostBlogPostForm">Submit</button>
+    //</form>
+
+    //
+
+    <form asp-action="PostBlogPostForm" asp-controller="Blog" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="OriginalPoster" value="@User.Identity.Name" />
+        <div class="form-group">
+            <label asp-for="Title"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Message"></label>
+            <textarea asp-for="Message" class="form-control"></textarea>
+            <span asp-validation-for="Message" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="AttachedImages"></label>
+            <input type="file" asp-for="AttachedImages" multiple />
+            <span asp-validation-for="AttachedImages" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="isBlogPost"></label>
+            <input type="hidden" asp-for="isBlogPost" value="true" />
+            <span asp-validation-for="isBlogPost" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+}
+@{
+    if (ViewBag.Message != null)
+    {
+        <div>
+            @ViewBag.Message
+        </div>
+    }
+}

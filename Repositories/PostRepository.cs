@@ -27,22 +27,22 @@ namespace CommunityWebsite_Lexicon_Project.Repositories
             }
         }
 
-        public List<Account> GetAccountParticipantsInPost(Post post, string id)
-        {
-            return post.PostParticipants.ToList();
-        }
+        //public List<Account> GetAccountParticipantsInPost(Post post, Guid id)
+        //{
+        //    return post.Participants.ToList();
+        //}
 
-        public List<Event> GetAllEvents()
-        {
-            return _context.Events.ToList();
-        }
+        //public List<Event> GetAllEvents()
+        //{
+        //    return _context.Events.ToList();
+        //}
 
-        public List<ForumThread> GetAllForumThreads()
-        {
-            return _context.ForumThreads.ToList();
-        }
+        //public List<ForumThread> GetAllForumThreads()
+        //{
+        //    return _context.ForumThreads.ToList();
+        //}
 
-        public async Task<Post> GetPostByMatchingPostIdAsync(string id)
+        public async Task<Post>? GetPostByMatchingPostIdAsync(Guid id)
         {
             return await _context.Posts.SingleOrDefaultAsync(x => x.PostId == id);
         }
@@ -77,12 +77,12 @@ namespace CommunityWebsite_Lexicon_Project.Repositories
             return _context.Posts.Where(x => x.Title == titleSearch).ToList();
         }
 
-        public List<Post> GetPostsContainingTag(string tag)
-        {
-            //return _context.Posts.Where(x => x.Tags.Contains(tag.Value)).ToList();
-            //return _context.Posts.Where(x => x.Tags.Contains(tag))
-            return _context.Posts.Where(x => x.Tags.Any(t => t.Value == tag)).ToList();
-        }
+        //public List<Post> GetPostsContainingTag(string tag)
+        //{
+        //    //return _context.Posts.Where(x => x.Tags.Contains(tag.Value)).ToList();
+        //    //return _context.Posts.Where(x => x.Tags.Contains(tag))
+        //    return _context.Posts.Where(x => x.Tags.Any(t => t.Value == tag)).ToList();
+        //}
 
         public List<Post> SearchAllPostsForMessageMatchingQuery(string query)
         {

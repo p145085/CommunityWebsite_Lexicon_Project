@@ -23,21 +23,22 @@ namespace CommunityWebsite_Lexicon_Project.Controllers
         public async Task<IActionResult> RemoveUserByUserName(string name)
         {
             Account user = await _userManager.FindByNameAsync(name);
-            _userManager.DeleteAsync(user);
+            await _userManager.DeleteAsync(user);
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> RemoveUserById(string id)
+        public async Task<IActionResult> RemoveUserById(Guid id)
         {
-            Account user = await _userManager.FindByIdAsync(id);
-            _userManager.DeleteAsync(user);
+            string convId = id.ToString();
+            Account user = await _userManager.FindByIdAsync(convId);
+            await _userManager.DeleteAsync(user);
             return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> RemoveUserByEmail(string email)
         {
             Account user = await _userManager.FindByEmailAsync(email);
-            _userManager.DeleteAsync(user);
+            await _userManager.DeleteAsync(user);
             return RedirectToAction("Index");
         }
 

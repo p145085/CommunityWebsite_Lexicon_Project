@@ -15,32 +15,32 @@ namespace CommunityWebsite_Lexicon_Project.Repositories
             _context = context;
         }
 
-        public Task AddAsync(ForumThread forumThread)
-        {
-            if (!string.IsNullOrEmpty(forumThread.Message))
-            {
-                _context.ForumThreads.Add(forumThread);
-                return _context.SaveChangesAsync();
-            }
-            else
-            {
-                throw new Exception("You must supply a message.");
-            }
-        }
+        //public Task AddAsync(ForumThread forumThread)
+        //{
+        //    if (!string.IsNullOrEmpty(forumThread.Message))
+        //    {
+        //        _context.ForumThreads.Add(forumThread);
+        //        return _context.SaveChangesAsync();
+        //    }
+        //    else
+        //    {
+        //        throw new Exception("You must supply a message.");
+        //    }
+        //}
 
-        public async Task<ForumThread> GetForumThreadMatchingForumThreadIdAsync(string id)
-        {
-            return await _context.ForumThreads.SingleOrDefaultAsync(x => x.ForumThreadId == id);
-        }
+        //public async Task<ForumThread> GetForumThreadMatchingForumThreadIdAsync(Guid id)
+        //{
+        //    return await _context.ForumThreads.SingleOrDefaultAsync(x => x.ForumThreadId == id);
+        //}
 
-        public List<ForumThread> GetForumThreadsByMatchingAccountUserName(string username)
-        {
-            return _context.ForumThreads.Where(x => x.OriginalPoster.UserName == username).ToList();
-        }
+        //public List<ForumThread> GetForumThreadsByMatchingAccountUserName(string username)
+        //{
+        //    return _context.ForumThreads.Where(x => x.OriginalPoster.UserName == username).ToList();
+        //}
 
-        public List<ForumThread> GetForumThreadsByMatchingEmail(string email)
-        {
-            return _context.ForumThreads.Where(x => x.OriginalPoster.Email == email).ToList();
-        }
+        //public List<ForumThread> GetForumThreadsByMatchingEmail(string email)
+        //{
+        //    return _context.ForumThreads.Where(x => x.OriginalPoster.Email == email).ToList();
+        //}
     }
 }

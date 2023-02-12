@@ -1,10 +1,15 @@
-﻿namespace CommunityWebsite_Lexicon_Project.Models.BaseModels
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace CommunityWebsite_Lexicon_Project.Models.BaseModels
 {
     public class PrivateMessage
     {
-        public string? PrivateMessageId { get; set; }
-        public Account? PrivateMessageSender { get; set; }
-        public Account? PrivateMessageReceiver { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid? PrivateMessageId { get; set; }
+        //public Account? PrivateMessageSender { get; set; }
+        //public Account? PrivateMessageReceiver { get; set; }
         public string? Message { get; set; }
     }
 }

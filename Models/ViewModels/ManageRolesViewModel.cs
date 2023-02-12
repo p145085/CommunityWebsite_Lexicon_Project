@@ -6,8 +6,8 @@ namespace CommunityWebsite_Lexicon_Project.Models.ViewModels
 {
     public class ManageRolesViewModel
     {
-        public IdentityRole Role { get; set; }
-        public IList<Account> AccountsWithRole { get; set; }
-        public IList<Account> AccountsWithNoRole { get; set; }
+        public IdentityRole? Role { get; set; }
+        //public IList<Account> AccountsWithRole { get; set; }
+        //public IList<Account> AccountsWithNoRole { get; set; }
     }
 }

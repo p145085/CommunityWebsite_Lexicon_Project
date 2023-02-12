@@ -10,9 +10,6 @@ namespace CommunityWebsite_Lexicon_Project
 {
     public class Program
     {
-        private static readonly RoleManager<IdentityRole> roleManager;
-        private static readonly UserManager<Account> userManager;
-
         internal class DbInitializer
         {
             internal static async Task Initialize(
@@ -75,8 +72,8 @@ namespace CommunityWebsite_Lexicon_Project
                 ));
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
             builder.Services.AddScoped<IPostRepository, PostRepository>();
-            builder.Services.AddScoped<IEventRepository, EventRepository>();
-            builder.Services.AddScoped<IForumThreadRepository, ForumThreadRepository>();
+            //builder.Services.AddScoped<IEventRepository, EventRepository>();
+            //builder.Services.AddScoped<IForumThreadRepository, ForumThreadRepository>();
 
             
             builder.Services.Configure<IdentityOptions>(options =>
@@ -139,12 +136,17 @@ namespace CommunityWebsite_Lexicon_Project
                     name: "news",
                     pattern: "news/{controller=NewsFeed}/{action=Index}/{id?}",
                     defaults: new { controller = "NewsFeed", action = "Index" });
+
+                endpoints.MapControllerRoute(
+                    name: "blog",
+                    pattern: "blog/{controller=Blog}/{action=Index}/{id?}",
+                    defaults: new { controller = "Blog", action = "Index" });
             });
 
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-                UserManager<Account> userManager = services.GetService<UserManager<Account>>();
+                UserManager<Account>? userManager = services.GetService<UserManager<Account>>();
                 var context = services.GetRequiredService<ApplicationDbContext>();
                 await DbInitializer.Initialize(context, userManager);
             }
