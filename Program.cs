@@ -5,64 +5,20 @@ using CommunityWebsite_Lexicon_Project.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Xml.Linq;
 
 namespace CommunityWebsite_Lexicon_Project
 {
     public class Program
     {
-        internal class DbInitializer
-        {
-            internal static async Task Initialize(
-                ApplicationDbContext context, UserManager<Account> userManager
-                )
-            {
-                context.Database.EnsureCreated(); //If not using EF migrations
-
-                try
-                {
-                    RoleStore<IdentityRole> roleStore = new RoleStore<IdentityRole>(context);
-                    var createAdmin = await roleStore.CreateAsync(
-                        new IdentityRole()
-                        {
-                            Name = "Admin",
-                            NormalizedName = "ADMIN",
-                        });
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-
-                Account adm = await userManager.FindByNameAsync("Admin");
-
-                try
-                {
-                    IdentityResult result = await userManager.AddToRoleAsync(adm, "Admin");
-
-                    if (result.Succeeded)
-                    {
-                        Console.WriteLine(adm.UserName + " has been added as an Admin.");
-                    }
-                    else
-                    {
-                        Console.WriteLine(adm.UserName + " could not be added as an Admin.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-                context.Database.Migrate();
-            }
-        }
-
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddIdentity<Account, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddRoles<IdentityRole>();
 
             // Add services to the container.
             //builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
@@ -70,12 +26,16 @@ namespace CommunityWebsite_Lexicon_Project
             builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
                 "Server=(localdb)\\MSSQLLocalDB;Database=CommunityWebsite_Database;Trusted_Connection=True;MultipleActiveResultSets=true"
                 ));
+
+            //builder.Services.AddScoped<IRoleStore<IdentityRole>, RoleStore<IdentityRole>>();
+
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
             builder.Services.AddScoped<IPostRepository, PostRepository>();
+            builder.Services.AddScoped<IImageRepository, ImageRepository>();
+            builder.Services.AddScoped<ITagRepository, TagRepository>();
             //builder.Services.AddScoped<IEventRepository, EventRepository>();
             //builder.Services.AddScoped<IForumThreadRepository, ForumThreadRepository>();
 
-            
             builder.Services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = true;
@@ -141,16 +101,80 @@ namespace CommunityWebsite_Lexicon_Project
                     name: "blog",
                     pattern: "blog/{controller=Blog}/{action=Index}/{id?}",
                     defaults: new { controller = "Blog", action = "Index" });
+
+                endpoints.MapControllerRoute(
+                    name: "event",
+                    pattern: "event/{controller=Event}/{action=Index}/{id?}",
+                    defaults: new { controller = "Event", action = "Index" });
+
+                endpoints.MapControllerRoute(
+                    name: "forum",
+                    pattern: "forum/{controller=Forum}/{action=Index}/{id?}",
+                    defaults: new { controller = "Forum", action = "Index" });
             });
 
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-                UserManager<Account>? userManager = services.GetService<UserManager<Account>>();
                 var context = services.GetRequiredService<ApplicationDbContext>();
-                await DbInitializer.Initialize(context, userManager);
-            }
+                var userManager = services.GetRequiredService<UserManager<Account>>();
+                var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                var signInManager = services.GetRequiredService<SignInManager<Account>>();
+                //var roleStore = services.GetService<RoleStore<IdentityRole>>();
+                //var roleManager = services.GetService<RoleManager<Account>>();
+                //var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+                RoleStore<IdentityRole> roleStore = new RoleStore<IdentityRole>(context);
 
+
+                var userExists = await userManager.GetUsersInRoleAsync("Admin");
+
+
+                var admin = await roleStore.CreateAsync(
+                    new IdentityRole(){
+                        Name = "Admin",
+                        NormalizedName = "ADMIN",
+                    }
+                );
+                var blogger = await roleStore.CreateAsync(
+                    new IdentityRole()
+                    {
+                        Name = "Blogger",
+                        NormalizedName = "BLOGGER",
+                    }
+                );
+                var discusser = await roleStore.CreateAsync(
+                    new IdentityRole()
+                    {
+                        Name = "Discusser",
+                        NormalizedName = "DISCUSSER",
+                    }
+                );
+                var planner = await roleStore.CreateAsync(
+                    new IdentityRole()
+                    {
+                        Name = "Planner",
+                        NormalizedName = "PLANNER",
+                    }
+                );
+
+                if (userExists.Count() < 1)
+                {
+                    var user = new Account { 
+                        UserName = "Populus", 
+                        Email = "emil.a.johansson@gmail.com"
+                    };
+                    var password = "kOW9k$4e@BT8";
+                    await userManager.CreateAsync(user, password);
+                    await userManager.AddToRoleAsync(user, "Admin");
+                    await userManager.AddToRoleAsync(user, "Blogger");
+                    await userManager.AddToRoleAsync(user, "Discusser");
+                    await userManager.AddToRoleAsync(user, "Planner");
+                }
+
+                context.Database.EnsureCreated(); //If not using EF migrations
+
+                context.Database.Migrate();
+            }
             await app.RunAsync();
         }
     }

@@ -1,52 +1,65 @@
 ﻿@using CommunityWebsite_Lexicon_Project.Models.BaseModels
-@using CommunityWebsite_Lexicon_Project.Models.ViewModels;
+@using CommunityWebsite_Lexicon_Project.Models.ViewModels
 @model NewsViewModel
 @{
     ViewData["Title"] = "Newsfeed";
 }
 @{
-<div>
-    <h1>News</h1>
-    @foreach (var item in Model.Posts.OrderByDescending(d => d.CreationDateTime)){
-        <div>
-            <p>Author: @(item.OriginalPoster?.UserName ?? "N/A")</p>
-            <p>Title: @item.Title</p>
-            <p>Date: @item.CreationDateTime.ToString("dd/MM/yyyy")</p>
+    @for (int xx = 0; xx < @Model.Posts.Count; xx++)
+    {
+        <div class="card" style="width: 18rem; text-align:center">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Posts[xx].Title</h5>
+                <p style="font-size:small">@Model.Posts[xx].OriginalPoster.UserName</p>
+                <p style="font-size:small; margin-top:-12px">@Model.Posts[xx].CreationDateTime</p>
+                <hr />
+                <!-- <a href="#" class="btn btn-primary">Temp Link</a> --> <!-- Edit, Reply -->
+            </div>
+            <p class="card-text" style="text-justify:auto; margin-top:-15px">@Model.Posts[xx].Message</p>
 
-                @if (item.AttachedImages != null)
+            @foreach (Image image in @Model.Images)
+            {
+                if (@image.BelongsToThisPostId == @Model.Posts[xx].PostId)
                 {
-                    foreach (Image images in item.AttachedImages)
+                    bool isWebM = @image.FileName.EndsWith(".webm");
+                    bool isGIF = @image.FileName.EndsWith(".gif");
+                    bool isMP4 = @image.FileName.EndsWith(".mp4");
+                    if (isWebM || isMP4)
                     {
-                        <img src="@images.Path" />
+                        <div style="width:100%; height:100%; overflow:hidden;">
+                            <a href="~/uploaded_images/@image.FileName">
+                                <video controls loop src="~/uploaded_images/@image.FileName" style="width:100%; height:100%;">
+                                </video>
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div style="align-content:center">
+                            <a href="~/uploaded_images/@image.FileName">
+                                <img src="~/uploaded_images/@image.FileName" class="img-thumbnail" style="block-size:contain">
+                            </a>
+                        </div>
                     }
                 }
-
-            @if(item.isBlogPost == true){
-                <p>This is a blog post.</p>
-            } else if(item.isForumThread == true){
-                <p>This is a forum thread.</p>
-            } 
-            
-
-            @if(item.isReadOnly == true){
-                <p>This post has been locked.</p>
             }
-
-            <div class="content">
-                <p>@item.Message</p>
+            <div class="card" style="height:min-content">
+                <ul class="list-inline" style="text-align:center">
+                    @foreach (Tag tag in @Model.Posts[xx].Tags)
+                    {
+                        <li class="list-inline-item" style="font-size:smaller">
+                            @tag.Value
+                        </li>
+                    }
+                </ul>
             </div>
-
-           
         </div>
     }
-</div>
 }
 
-@{
-    if (ViewBag.Message != null)
-    {
-        <div>
-            @ViewBag.Message
-        </div>
-    }
+@if (ViewBag.Message != null)
+{
+    <div>
+        @ViewBag.Message
+    </div>
 }

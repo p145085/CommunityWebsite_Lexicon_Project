@@ -7,25 +7,25 @@ namespace CommunityWebsite_Lexicon_Project.Models.BaseModels
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid? PostId { get; set; }
+        public Guid PostId { get; set; }
         [Required]
         public string? Title { get; set; }
         public DateTime CreationDateTime { get; set; }
-        //public List<Tag> Tags { get; set; } = new();
-        public List<Image>? AttachedImages { get; set; }
-        //[ForeignKey("Account")]
-        //public Guid OriginalPosterId { get; set; }
+        public List<Tag>? Tags { get; set; }
+        //public List<Image>? AttachedImages { get; set; } // Patch note: Image-files are handled in the controller where they are both saved to disk and database and are imported as 'IFormFile' when they are submitted through a form.
+        //[ForeignKey("OriginalPosterId")]
+        public string? OriginalPosterId { get; set; }
         public Account? OriginalPoster { get; set; }
         //public List<Account> Participants { get; set; } = new();
         //public List<Account> UsersAttending { get; set; } = new();
 
-        public bool isEvent { get; set; }
-        public bool isForumThread { get; set; }
-        public bool isBlogPost { get; set; }
-        public bool isReadOnly { get; set; }
-        public DateTime HighlightedDateTime { get; set; }
+        public bool? isEvent { get; set; }
+        public bool? isForumThread { get; set; }
+        public bool? isBlogPost { get; set; }
+        public bool? isReadOnly { get; set; }
+        public DateTime? HighlightedDateTime { get; set; }
 
         [Required]
-        public string? Message { get; set; }
+        public string Message { get; set; }
     }
 }

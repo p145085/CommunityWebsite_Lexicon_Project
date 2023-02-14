@@ -8,7 +8,8 @@ namespace CommunityWebsite_Lexicon_Project.Models.BaseModels
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid? TagId { get; set; }
-        public string? Value { get; set; }
-        //public List<Post> Posts { get; set; } = new();
+        [Required]
+        public string Value { get; set; }
+        public Guid? RelatedToThisPost { get; set; }
     }
 }

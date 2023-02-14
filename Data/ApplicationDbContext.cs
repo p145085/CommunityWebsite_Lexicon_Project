@@ -12,6 +12,12 @@ namespace CommunityWebsite_Lexicon_Project.Data
         {
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            //optionsBuilder.EnableSensitiveDataLogging();
+            //base.OnConfiguring(optionsBuilder);
+        }
+
         public DbSet<Account>? Accounts { get; set; }
         public DbSet<Post>? Posts { get; set; }
         //public DbSet<Event>? Events { get; set; }
@@ -21,12 +27,7 @@ namespace CommunityWebsite_Lexicon_Project.Data
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
-        //    //modelBuilder.Entity<IdentityUserLogin<string>>()
-        //    //    .HasKey(e => new { e.LoginProvider, e.ProviderKey });
 
-        //    //modelBuilder.Entity<IdentityUserRole<string>>().HasKey(p => new { p.UserId, p.RoleId });
-
-        //    //modelBuilder.Entity<IdentityUserToken<string>>().HasKey(p => new { p.UserId, p.LoginProvider, p.Name });
 
         //    //modelBuilder.Entity<Post>(cfg => {
         //    //    cfg.HasOne(p => p.OriginalPoster)
@@ -39,5 +40,27 @@ namespace CommunityWebsite_Lexicon_Project.Data
         //    //        .WithMany(a => a.WillBeAttendingTo);
         //    //});
         //}
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            modelBuilder.Entity<IdentityUserLogin<string>>()
+                .HasKey(e => new { e.LoginProvider, e.ProviderKey });
+
+            modelBuilder.Entity<IdentityUserRole<string>>().HasKey(p => new { p.UserId, p.RoleId });
+
+            modelBuilder.Entity<IdentityUserToken<string>>().HasKey(p => new { p.UserId, p.LoginProvider, p.Name });
+
+
+            //modelBuilder.Entity<Post>()
+            //    .HasMany(p => p.Tags)
+            //    .WithOne(t => t.RelatedToThisPost)
+            //    .HasForeignKey(t => t.TagId);
+
+            //modelBuilder.Entity<Post>()
+            //    .HasMany(p => p.AttachedImages)
+            //    .WithOne(i => i.BelongsToThisPostId)
+            //    .HasForeignKey(i => i.ImageId);
+        }
     }
 }

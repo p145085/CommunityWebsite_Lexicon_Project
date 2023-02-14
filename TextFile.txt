@@ -1,28 +1,64 @@
-﻿else if (item.isEvent == true){
-                var blah = item as Event;
-                <p>The event will take place on: @blah.HighlightedDateTime.ToString("dd/MM/yyyy")</p>
-                <p>Number of attendees: @blah.UsersAttending.Count</p>
-                <p>Users attending: 
-                @foreach (var foo in blah.UsersAttending){
-                    @foo.UserName
-                }
+﻿                        //<p>Number of attendees: @item.UsersAttending.Count</p>
+                        //<p>
+                        //    Users attending:
+                        //    @foreach (var foo in item.UsersAttending)
+                        //    {
+                        //        @foo.UserName
+                        //    }
+                        //</p>
+
+
+
+                                    
+                                                        <!-- <img id="PostImage" src="~/uploaded_images/@image.FileName" class="img-thumbnail" /> -->
+
+
+            
+
+
+
+                <input type="hidden" asp-for="OriginalPoster" value="@User.Identity.Name" />
+
+
+
+
+                        //[Key]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //public Guid? AccountId { get; set; }
+        //public List<Post> ParticipatesIn { get; set; } = new();
+        //public List<Post> WillBeAttendingTo { get; set; } = new();
+        //public List<Post> OriginalPosterOf { get; set; } = new();
+
+
+
+
+
+        
+        <div class="card">
+            @if (post.isBlogPost == true){
+                <p>This is a blog post.</p>
+            } else if (post.isForumThread == true){
+                <p>This is a forum thread.</p>
+                // Insert reply-form.
+                } else if (post.isEvent == true){
+                    // Show calendar-widget.
+                <p>
+                    The event will take place on:
+                    @{
+                        var highlightedDate = post.HighlightedDateTime;
+                        if (highlightedDate is DateTime date)
+                        {
+                            @date.ToString("dd/MM/yyyy");
+                        }
+                        else
+                        {
+                            <p>N/A</p>
+                        }
+                    }
                 </p>
-            }
-
-
-
-             @if (item.Tags.Any())
-            {
-                <p> Tags: @foreach (Tag tag in item.Tags) {
-                        @tag.Value
                 }
-                </p>
+                
+            @if(post.isReadOnly == true){
+                <p>This post has been locked.</p>
             }
-
-
-
-            <div class="form-group">
-            <label asp-for="Tags"></label>
-            <input type="text" asp-for="Tags" multiple />
-            <span asp-validation-for="Tags" class="text-danger"></span>
         </div>

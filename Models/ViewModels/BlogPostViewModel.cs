@@ -10,20 +10,21 @@ namespace CommunityWebsite_Lexicon_Project.Models.ViewModels
     {
         //private readonly UserManager<Account> _userManager;
         //private readonly IHttpContextAccessor _httpContextAccessor;
-        public string? Title { get; set; }
+        public string Title { get; set; }
         //public DateTime CreationDateTime { get; set; } = DateTime.Now; // Should be auto-filled.
 
-        /// public List<Tag> Tags { get; set; } // Comma-separated line of strings.
+        public string? Tags { get; set; }
 
         [NotMapped]
         public IFormFileCollection? AttachedImages { get; set; } // Bulk-upload images.
         //public List<Image> Images { get; set; }
-        public string? OriginalPoster { get; set; } // Auto-set to logged in user.
-        //public bool isEvent { get; set; } = false;
-        //public bool isForumThread { get; set; } = false;
-        public bool isBlogPost { get; set; } = true;
-        //public bool isReadOnly { get; set; } = false; 
-        public string? Message { get; set; }
+        //public string OriginalPoster { get; set; } // Auto-set to logged in user.
+        //public bool? isEvent { get; set; }
+        //public bool? isForumThread { get; set; }
+        //public bool? isBlogPost { get; set; } = true;
+        //public bool? isReadOnly { get; set; }
+        //public DateTime? HighlightedDateTime { get; set; }
+        public string Message { get; set; }
 
         public BlogPostViewModel(/*UserManager<Account> userManager, IHttpContextAccessor httpContextAccessor*/)
         {

@@ -9,24 +9,32 @@ namespace CommunityWebsite_Lexicon_Project.Controllers
     public class NewsFeedController : Controller
     {
         private readonly IPostRepository _postRepository;
-        //private readonly IEventRepository _eventRepository;
+        private readonly IImageRepository _imageRepository;
+        private readonly IAccountRepository _accountRepository;
+        private readonly ITagRepository _tagRepository;
 
-        public NewsFeedController(IPostRepository postRepository/*, IEventRepository eventRepository*/)
+        public NewsFeedController(IPostRepository postRepository, IImageRepository imageRepository, IAccountRepository accountRepository, ITagRepository tagRepository)
         {
             _postRepository = postRepository;
-            //_eventRepository = eventRepository;
+            _imageRepository = imageRepository;
+            _accountRepository = accountRepository;
+            _tagRepository = tagRepository;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
             var posts = _postRepository.GetAllPosts();
-            //var events = _postRepository.GetAllEvents();
+            var images = _imageRepository.GetAllImages();
+            var accounts = _accountRepository.GetAllAccounts();
+            var tags = _tagRepository.GetAllTags();
 
             var viewModel = new NewsViewModel
             {
                 Posts = posts,
-                //Events = events
+                Images = images,
+                Accounts = accounts,
+                Tags = tags
             };
 
             return View(viewModel);

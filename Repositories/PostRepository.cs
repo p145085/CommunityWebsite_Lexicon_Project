@@ -14,17 +14,23 @@ namespace CommunityWebsite_Lexicon_Project.Repositories
             _context = context;
         }
 
-        public Task AddAsync(Post post)
+        public async Task AddAsync(Post post)
         {
-            if (!string.IsNullOrEmpty(post.Message))
+            try
             {
-                _context.Posts.Add(post);
-                return _context.SaveChangesAsync();
-            }
-            else
+                if (!string.IsNullOrEmpty(post.Message))
+                {
+                    _context.Posts.AddAsync(post);
+                }
+                else
+                {
+                    throw new Exception("You must supply a message.");
+                }
+            } catch (Exception ex)
             {
-                throw new Exception("You must supply a message.");
+                throw new Exception("Could not add post to database. " + ex.Message);
             }
+            
         }
 
         //public List<Account> GetAccountParticipantsInPost(Post post, Guid id)

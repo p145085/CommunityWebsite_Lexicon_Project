@@ -5,19 +5,21 @@
 @{
     <h3>Login</h3>
 
-    <form asp-action="Login" asp-controller="Account" method="post">
-        <div asp-validation-summary="ModelOnly"></div>
+    <div class="form-inline">
+        <form asp-action="Login" asp-controller="Account" method="post">
+            <div asp-validation-summary="ModelOnly"></div>
 
-        <h4>Username</h4>
-        <input asp-for="Username" type="text" />
-        <span asp-validation-for="Username"></span>
+            <h4>Username</h4>
+            <input asp-for="Username" type="text" />
+            <span asp-validation-for="Username"></span>
 
-        <h4>Password</h4>
-        <input asp-for="Password" type="password" />
-        <span asp-validation-for="Password"></span>
+            <h4>Password</h4>
+            <input asp-for="Password" type="password" />
+            <span asp-validation-for="Password"></span>
 
-        <button type="submit" value="Login">Login</button>
-    </form>
+            <button type="submit" value="Login">Login</button>
+        </form>
+    </div>
 }
 @{
     if (ViewBag.Message != null)

@@ -16,8 +16,8 @@ namespace CommunityWebsite_Lexicon_Project.Repositories
 
         public Task<Account> GetAccountByIdAsync(Guid id)
         {
-            //string convId = id.ToString();
-            return _context.Accounts.FirstOrDefaultAsync(x => x.Id == id);
+            string convId = id.ToString();
+            return _context.Accounts.FirstOrDefaultAsync(x => x.Id == convId);
         }
 
         public Task<Account> GetAccountByUsernameAsync(string username)
@@ -30,14 +30,18 @@ namespace CommunityWebsite_Lexicon_Project.Repositories
             return _context.Accounts.FirstOrDefaultAsync(x => x.Email == email);
         }
 
-        public Task AddAsync(Account account)
+        public List<Account> GetAllAccounts()
+        {
+            return _context.Accounts.ToList();
+        }
+
+        public async Task AddAsync(Account account)
         {
             if (!string.IsNullOrEmpty(account.UserName))
             {
                 if (!string.IsNullOrEmpty(account.Email))
                 {
-                    _context.Accounts.Add(account);
-                    return _context.SaveChangesAsync();
+                    await _context.Accounts.AddAsync(account);
                 }
                 else
                 {

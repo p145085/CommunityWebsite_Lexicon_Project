@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Helper\FileHandler.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.11" />
@@ -22,8 +27,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Helper\" />
     <Folder Include="Views\Forum\" />
     <Folder Include="Views\Admin\" />
+    <Folder Include="Views\Event\" />
   </ItemGroup>
 
 </Project>

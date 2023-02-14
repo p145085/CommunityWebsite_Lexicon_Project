@@ -1,4 +1,5 @@
 ﻿using CommunityWebsite_Lexicon_Project.Models.BaseModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,7 @@ namespace CommunityWebsite_Lexicon_Project.Controllers
             return View();
         }
 
+        [Authorize("Admin")]
         public async Task<IActionResult> RemoveUserByUserName(string name)
         {
             Account user = await _userManager.FindByNameAsync(name);
@@ -27,6 +29,7 @@ namespace CommunityWebsite_Lexicon_Project.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize("Admin")]
         public async Task<IActionResult> RemoveUserById(Guid id)
         {
             string convId = id.ToString();
@@ -35,6 +38,7 @@ namespace CommunityWebsite_Lexicon_Project.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize("Admin")]
         public async Task<IActionResult> RemoveUserByEmail(string email)
         {
             Account user = await _userManager.FindByEmailAsync(email);
@@ -47,7 +51,5 @@ namespace CommunityWebsite_Lexicon_Project.Controllers
         //{
 
         //}
-
-
     }
 }

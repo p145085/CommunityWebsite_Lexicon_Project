@@ -1,9 +1,11 @@
-﻿using CommunityWebsite_Lexicon_Project.Interfaces;
+﻿using CommunityWebsite_Lexicon_Project.Data;
+using CommunityWebsite_Lexicon_Project.Interfaces;
 using CommunityWebsite_Lexicon_Project.Models.BaseModels;
 using CommunityWebsite_Lexicon_Project.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
@@ -17,6 +19,7 @@ namespace CommunityWebsite_Lexicon_Project.Controllers
         private readonly UserManager<Account> _userManager;
         private readonly SignInManager<Account> _signInManager;
         private readonly IAccountRepository _accountRepository;
+        private ApplicationDbContext _context;
 
         public IActionResult Index()
         {
@@ -26,12 +29,14 @@ namespace CommunityWebsite_Lexicon_Project.Controllers
         public AccountController(
             IAccountRepository accountRepository,
             UserManager<Account> userManager,
-            SignInManager<Account> signInManager
+            SignInManager<Account> signInManager,
+            ApplicationDbContext context
             )
         {
             _accountRepository = accountRepository;
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
         [AllowAnonymous]
@@ -53,26 +58,14 @@ namespace CommunityWebsite_Lexicon_Project.Controllers
                     ModelState.AddModelError("UserName", "Only letters and digits are allowed in the UserName field.");
                 }
 
-                //try // Setting the password.
-                //{
-                //    await createdUser.SetPassword(submittedAccountModel.Password);
-                //} catch (Exception)
-                //{
-                //    throw new Exception("Error.");
-                //} finally // Verify the password.
-                //{
-                //    await createdUser.VerifyPassword(submittedAccountModel.PasswordConfirm);
-                //}
-
                 IdentityResult result = await _userManager.CreateAsync( // Create the Account-Identity object.
                     createdUser, submittedAccountModel.Password
                     );
 
                 if (result.Succeeded)
                 {
-                    //await _accountRepository.AddAsync(createdUser); // Save the Account-Identity object. // Samma som _userManager.CreateAsync.
+                    await _context.SaveChangesAsync();
                     return RedirectToAction("Login");
-                    //return Ok();
                 } else
                 {
                     return View(submittedAccountModel);
@@ -110,31 +103,6 @@ namespace CommunityWebsite_Lexicon_Project.Controllers
                 return RedirectToAction("Index", "Home");
             }
             return View();
-
-            // ** START OF DATABASE LOGIN **
-            //Account account = await _accountRepository.GetAccountByUsernameAsync(loginModel.Username);
-
-            //if (account == null)
-            //{
-            //    return BadRequest(new { message = "No account with that username found." });
-            //}
-
-            ////Check if the password is correct
-            ////if (!VerifyPasswordHash(loginModel.Password, account.Password))
-            //if (!await account.VerifyPassword(loginModel.Password))
-            //{
-            //    return BadRequest(new { message = "Password is incorrect." });
-            //}
-
-            //// Generate a JWT token
-            ////var token = GenerateToken(account);
-            //return Ok(new
-            //{
-            //    Id = account.Id,
-            //    UserName = account.UserName,
-            //    Email = account.Email,
-            //    //Token = token
-            //}); ** END OF DATABASE LOGIN **
         }
 
         [AllowAnonymous]
@@ -143,24 +111,6 @@ namespace CommunityWebsite_Lexicon_Project.Controllers
         {
             return View();
         }
-
-        //private bool VerifyPasswordHash(string password, byte[] passwordHash)
-        //{
-        //    using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordHash))
-        //    {
-        //        var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-        //        for (int i = 0; i < computedHash.Length; i++)
-        //        {
-        //            if (computedHash[i] != passwordHash[i]) return false;
-        //        }
-        //    }
-        //    return true;
-        //}
-
-        //private string GenerateToken(Account account)
-        //{
-        //    // Your implementation for generating a JWT token goes here
-        //}
 
         [HttpGet]
         public async Task<IActionResult> Logout()
